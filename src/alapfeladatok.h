@@ -69,6 +69,27 @@ namespace csrb {
 			val += *(beg++);
 		return val;
 	}
+
+	// Az adatsor adott tulajdonságú elemeinek összeadása
+	// Paraméterek:
+	// 	beg: adatsor kezdő elemére mutató iterátor
+	// 	end: adatsor utolsó utáni elemére mutató iterátor
+	// 	val: akkumulátor változó kezdeti értéke
+	// 	pred: logikai visszatérési értékű funkció,
+	// 		amely meghívható az adatsor értékeivel
+	// A felhasználónak ügyelnie kell az iterátorszakasz validitására
+	// Visszatérési érték:
+	// 	Az adatsor adott tulajdonságú elemeinek összege
+	template <class InputIt, class T = ptrdiff_t, class UnaryPred>
+	T felteteles_osszegzes
+	(InputIt beg, InputIt end, T val, UnaryPred pred) {
+		while (beg != end) {
+			if (pred(*beg))
+				val += *beg;
+			++beg;
+		}
+		return val;
+	}
 }	// csrb namespace vége
 
 #endif	// ALAPFELADATOK_H

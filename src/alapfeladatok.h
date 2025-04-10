@@ -1,7 +1,6 @@
 #ifndef ALAPFELADATOK_H
 #define ALAPFELADATOK_H
 
-#include <stdexcept>
 #include <cstddef>
 
 namespace csrb {
@@ -53,6 +52,22 @@ namespace csrb {
 			current = op(i++, current);
 		}
 		return dest;
+	}
+
+	// Adatsor elemeinek összeadása
+	// Paraméterek:
+	// 	beg: adatsor kezdő elemére mutató iterátor
+	// 	end: adatsor utolsó utáni elemére mutató iterátor
+	// 	val: akkumulátor változó kezdeti értéke
+	// A felhasználónak ügyelnie kell az iterátorszakasz validitására
+	// Visszatérési érték:
+	// 	Az adatsor összes elemének összege
+	template <class InputIt, class T = ptrdiff_t>
+	T osszegzes
+	(InputIt beg, InputIt end, T val = 0) {
+		while (beg != end)
+			val += *(beg++);
+		return val;
 	}
 }	// csrb namespace vége
 

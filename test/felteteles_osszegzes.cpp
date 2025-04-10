@@ -20,7 +20,7 @@ int main() {
 	auto feltetel = [](int i) { return i % 2 == 0; };
 	
 	// Feltételes összeg kiszámítása
-	double osszeg = csrb::felteteles_osszegzes(kezdo, vegso, 0.0, feltetel);
+	int osszeg = csrb::felteteles_osszegzes(kezdo, vegso, 0, feltetel);
 
 	// Feltételes összeg kiíratása
 	std::cout << "Feltételes összeg: " << osszeg << '\n';

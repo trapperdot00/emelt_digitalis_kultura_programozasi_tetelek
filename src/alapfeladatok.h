@@ -201,6 +201,32 @@ namespace csrb {
 		}
 		return std::make_pair(dest1, dest2);
 	}
+
+	// Két adatsor közös elemeinek kiválogatása, harmadik adatsorba gyűjtése
+	// Paraméterek:
+	// 	beg1: első bemeneti adatsor első elemére mutató iterátor
+	// 	end1: első bemeneti adatsor utolsó utáni elemére mutató iterátor
+	// 	beg2: második bemeneti adatsor első elemére mutató iterátor
+	// 	end2: második bemeneti adatsor utolsó utáni elemére mutató iterátor
+	// 	dest: kimeneti adatsor első írandó elemére mutató iterátor,
+	// 		amelybe írjuk a közös elemeket
+	// A felhasználónak ügyelnie kell a két bemeneti iterátorszakasz validitására,
+	// illetve arra, hogy a kimeneti adatsorban legyen elegendő férőhely a
+	// memóriatúlcímezés elkerülése érdekében
+	// Visszatérési érték:
+	// 	A kimeneti adatsor utoljára írt eleme utánra mutató iterátor
+	template <class InputIt1, class InputIt2, class OutputIt>
+	OutputIt metszet
+	(InputIt1 beg1, InputIt1 end1, InputIt2 beg2, InputIt2 end2, OutputIt dest) {
+		for (; beg1 != end1; ++beg1) {
+			InputIt2 it = beg2;
+			while (it != end2 && *beg1 != *it)
+				++it;
+			if (it != end2)
+				*dest++ = *it;
+		}
+		return dest;
+	}
 }	// csrb namespace vége
 
 #endif	// ALAPFELADATOK_H

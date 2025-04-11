@@ -109,6 +109,25 @@ namespace csrb {
 				return true;
 		return false;
 	}
+
+	// Adott tulajdonságú elem kiválasztása olyan adatsorból,
+	// amiben biztosan van ilyen elem
+	// Paraméterek:
+	// 	beg: adatsor kezdő elemére mutató iterátor
+	// 	pred: logikai visszatérési értékű függvény,
+	// 		amely meghívható az adatsor értékeivel
+	// A felhasználónak ügyelnie kell, hogy biztosan
+	// legyen adott tulajdonságú elem az adatsorban,
+	// különben memória túlcímezés történik
+	// Visszatérési érték:
+	// 	Az első adott tulajdonságú elemre mutató iterátor
+	template <class InputIt, class UnaryPred>
+	InputIt kivalasztas
+	(InputIt beg, UnaryPred pred) {
+		while (!pred(*beg))
+			++beg;
+		return beg;
+	}
 }	// csrb namespace vége
 
 #endif	// ALAPFELADATOK_H

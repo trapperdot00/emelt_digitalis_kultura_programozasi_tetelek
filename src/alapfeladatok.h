@@ -23,7 +23,7 @@ namespace csrb {
 	OutputIt sorozatszamitas
 	(size_t i, size_t j, OutputIt dest, UnaryOp op) {
 		while (i < j)
-			*(dest++) = op(i++);
+			*dest++ = op(i++);
 		return dest;
 	}
 
@@ -48,7 +48,7 @@ namespace csrb {
 	(size_t i, size_t j, OutputIt dest, const T& first, BinaryOp op) {
 		T current = first;
 		while (i < j) {
-			*(dest++) = current;
+			*dest++ = current;
 			current = op(i++, current);
 		}
 		return dest;
@@ -66,7 +66,7 @@ namespace csrb {
 	T osszegzes
 	(InputIt beg, InputIt end, T val = 0) {
 		while (beg != end)
-			val += *(beg++);
+			val += *beg++;
 		return val;
 	}
 
@@ -89,6 +89,25 @@ namespace csrb {
 			++beg;
 		}
 		return val;
+	}
+
+	// Annak vizsgálata, hogy egy adatsorban van-e adott tulajdonságú elem
+	// Paraméterek:
+	// 	beg: adatsor kezdő elemére mutató iterátor
+	// 	end: adatsor utolsó utáni elemére mutató iterátor
+	// 	pred: logikai visszatérési értékű függvény,
+	// 		amely meghívható az adatsor értékeivel
+	// A felhasználónak ügyelnie kell az iterátorszakasz validitására
+	// Visszatérési érték:
+	// 	Logikai érték, létezik-e legalább egy adott
+	// 	tulajdonságú elem az adatsorban
+	template <class InputIt, class UnaryPred>
+	bool eldontes
+	(InputIt beg, InputIt end, UnaryPred pred) {
+		while (beg != end)
+			if (pred(*beg++))
+				return true;
+		return false;
 	}
 }	// csrb namespace vége
 

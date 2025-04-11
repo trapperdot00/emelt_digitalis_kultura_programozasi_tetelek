@@ -2,6 +2,7 @@
 #define ALAPFELADATOK_H
 
 #include <cstddef>
+#include <utility>
 
 namespace csrb {
 	// Sorozat előállítása az általános képlet alapján
@@ -127,6 +128,78 @@ namespace csrb {
 		while (!pred(*beg))
 			++beg;
 		return beg;
+	}
+
+	// Adott tulajdonságú elemek kiválogatása egy adatsorból
+	// Paraméterek:
+	//  beg: adatsor kezdő elemére mutató iterátor
+	//  end: adatsor utolsó utáni elemére mutató iterátor
+	//  dest: mutató a cél adatsor első elemére
+	//  pred: egy paraméteres feltétel, amelyet az adatsor elemeivel
+	//  	meg lehet hívni, és logikai értéket ad vissza, ezen érték
+	//  	alapján határozzuk meg a kiválogatandó elemeket
+	// A felhasználónak ügyelnie kell az iterátorszakasz validitására,
+	// illetve arra, hogy legyen elegendő hely a cél adatsorban a
+	// memóriatúlcímezés elkerülése érdekében
+	// Visszatérési érték:
+	// 	A céladatsorban írt utolsó elem utánra mutató iterátor
+	template <class InputIt, class OutputIt, class UnaryPred>
+	OutputIt kivalogatas
+	(InputIt beg, InputIt end, OutputIt dest, UnaryPred pred) {
+		while (beg != end) {
+			if (pred(*beg))
+				*dest++ = *beg;
+			++beg;
+		}
+		return dest;
+	}
+
+	// Egy adatsor adott tulajdonságú elemeinek megszámlálása
+	// Paraméterek:
+	// 	beg: adatsor kezdő elemére mutató iterátor
+	// 	end: adatsor utolsó utáni elemére mutató iterátor
+	// 	pred: egy paraméteres feltétel, amelyet az adatsor elemeivel
+	// 		meg lehet hívni, és logikai értéket ad vissza, amely
+	// 		alapján számoljuk a darabszámot
+	// A felhasználónak ügyelnie kell az iterátorszakasz validitására
+	// Visszatérési érték:
+	// 	Az adatsorban található elemek darabszáma,
+	// 	amelyekre teljesült a feltétel
+	template <class InputIt, class UnaryPred>
+	size_t szamlalas
+	(InputIt beg, InputIt end, UnaryPred pred) {
+		size_t cnt = 0;
+		while (beg != end)
+			if (pred(*beg++))
+				++cnt;
+		return cnt;
+	}
+
+	// Egy adatsor elemeinek szétválogatása adott tulajdonságuk alapján
+	// Paraméterek:
+	// 	beg: bemeneti adatsor kezdő elemére mutató iterátor 
+	// 	end: bemeneti adatsor utolsó utáni elemére mutató iterátor
+	// 	dest1: első kimeneti adatsor első írandó elemére mutató iterátor,
+	// 		amelybe írjuk azon elemeket, amelyekre teljesül a feltétel
+	// 	dest2: második kimeneti adatsor első írandó elemére mutató iterátor,
+	// 		amelybe írjuk azon elemeket, amelyekre nem teljesül a feltétel
+	// 	pred: egy paraméteres feltétel, logikai visszatérésű értékkel,
+	// 		amely meghívható a bemeneti adatsor elemeivel
+	// A felhasználónak ügyelnie kell az iterátorszakasz validitására,
+	// illetve arra, hogy a két kimeneti adatsorban legyen elegendő férőhely
+	// a memóriatúlcímezés elkerülése érdekében
+	// Visszatérési érték:
+	// 	A két céladatsorban írt utolsó elem utánra mutató iterátorok
+	template <class InputIt, class OutputIt1, class OutputIt2, class UnaryPred>
+	std::pair<OutputIt1, OutputIt2> szetvalogatas
+	(InputIt beg, InputIt end, OutputIt1 dest1, OutputIt2 dest2, UnaryPred pred) {
+		while (beg != end) {
+			if (pred(*beg))
+				*dest1++ = *beg++;
+			else
+				*dest2++ = *beg++;
+		}
+		return std::make_pair(dest1, dest2);
 	}
 }	// csrb namespace vége
 

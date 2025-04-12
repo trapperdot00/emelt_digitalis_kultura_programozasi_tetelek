@@ -1,6 +1,10 @@
 #ifndef MAXIMUMFELADATOK_H
 #define MAXIMUMFELADATOK_H
 
+#include <cstddef>
+#include <iterator>
+#include <utility>
+
 namespace csrb {
 
 // Az adatsorból kiválasztandó az első legnagyobb elem és annak helye
@@ -45,6 +49,35 @@ InputIt felteteles_maximum
 		if (*max < *beg && pred(*beg))
 			max = beg;
 	return max;
+}
+
+// Az adatsor maximális elemeinek megszámolása
+// Paraméterek:
+// 	beg: Az adatsor első elemére mutató iterátor
+// 	end: Az adatsor utolsó utáni elemére mutató iterátor
+// A felhasználónak ügyelnie kell az iterátorszakasz validitására
+// Visszatérési érték:
+// 	A maximumérték és darabszáma,
+// 	üres adatsornál alapérték és 0-s darabszám
+template <class InputIt>
+std::pair<typename std::iterator_traits<InputIt>::value_type, size_t> maximumszamlalas
+(InputIt beg, InputIt end)
+{
+	if (beg == end)
+		return std::make_pair(
+			typename std::iterator_traits<InputIt>::value_type{}, 0
+		);
+	size_t cnt = 1;
+	InputIt max = beg++;
+	for (; beg != end; ++beg) {
+		if (*max == *beg)
+			++cnt;
+		else if (*max < *beg) {
+			max = beg;
+			cnt = 1;
+		}
+	}
+	return std::make_pair(*max, cnt);
 }
 
 }	// csrb namespace vége

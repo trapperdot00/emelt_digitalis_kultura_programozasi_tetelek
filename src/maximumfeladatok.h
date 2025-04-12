@@ -60,7 +60,8 @@ InputIt felteteles_maximum
 // 	A maximumérték és darabszáma,
 // 	üres adatsornál alapérték és 0-s darabszám
 template <class InputIt>
-std::pair<typename std::iterator_traits<InputIt>::value_type, size_t> maximumszamlalas
+std::pair<typename std::iterator_traits<InputIt>::value_type, size_t>
+maximumszamlalas
 (InputIt beg, InputIt end)
 {
 	if (beg == end)
@@ -78,6 +79,26 @@ std::pair<typename std::iterator_traits<InputIt>::value_type, size_t> maximumsza
 		}
 	}
 	return std::make_pair(*max, cnt);
+}
+
+// Az első olyan elem keresése az adatsorban,
+// amely nagyobb mindkét szomszédjánál
+// Paraméterek:
+// 	beg: Az adatsor első elemére mutató iterátor
+// 	end: Az adatsor utolsó utáni elemére mutató iterátor
+// A felhasználónak ügyelnie kell az iterátorszakasz validitására
+// Visszatérési érték:
+// 	Lokális maximumra, vagy az adatsor utolsó utáni elemére mutató iterátor
+template <class InputIt>
+InputIt lokalis_maximum
+(InputIt beg, InputIt end) {
+	if (beg == end || beg + 1 == end || beg + 2 == end)
+		return end;
+	for (InputIt prev = beg++, next = beg+1; next != end; ++prev, ++beg, ++next) {
+		if (*prev < *beg && *next < *beg)
+			return beg;
+	}
+	return end;
 }
 
 }	// csrb namespace vége

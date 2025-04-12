@@ -229,6 +229,35 @@ OutputIt metszet
 	return dest;
 }
 
+// Két adatsor elemeinek egy adatsorba való gyűjtése úgy,
+// hogy az egyező elemek csak egyszer szerepeljenek
+// Paraméterek:
+// 	beg1: első bemeneti adatsor első elemére mutató iterátor
+// 	end1: első bemeneti adatsor utolsó utáni elemére mutató iterátor
+// 	beg2: második bemeneti adatsor első elemére mutató iterátor
+// 	end2: második bemeneti adatsor utolsó utáni elemére mutató iterátor
+// 	dest: kimeneti adatsor első írandó elemére mutató iterátor,
+// 		amelybe az egyesített elemeket írjuk
+// A felhasználónak ügyelnie kell a két bemeneti iterátorszakasz validitására,
+// illetve arra, hogy a kimeneti adatsorban legyen elegendő férőhely a
+// memóriatúlcímezés elkerülése érdekében
+// Visszatérési érték:
+// 	A kimeneti adatsor utoljára írt eleme utánra mutató iterátor
+template <class InputIt1, class InputIt2, class OutputIt>
+OutputIt egyesites
+(InputIt1 beg1, InputIt1 end1, InputIt2 beg2, InputIt2 end2, OutputIt dest) {
+	for (InputIt1 it = beg1; it != end1; ++it)
+		*dest++ = *it;
+	while (beg2 != end2) {
+		InputIt1 it = beg1;
+		while (it != end1 && *it != *beg2)
+			++it;
+		if (it == end1)
+			*dest++ = *beg2;
+		++beg2;
+	}
+	return dest;
+}
 }	// csrb namespace vége
 
 #endif	// ALAPFELADATOK_H

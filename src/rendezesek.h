@@ -30,7 +30,33 @@ void buborekos_rendezes
 	for (RandomIt it1 = end - 1; it1 != beg; --it1) {
 		for (RandomIt it2 = beg; it2 != it1; ++it2)
 			if (*(it2 + 1) < *it2)
-				std::iter_swap(it2 + 1, it2);
+				std::iter_swap(it2, it2 + 1);
+	}
+}
+
+template <class RandomIt>
+void cserelgeteses_rendezes
+(RandomIt beg, RandomIt end) {
+	if (beg == end)
+		return;
+	for (RandomIt it1 = beg; it1 != end - 1; ++it1) {
+		for (RandomIt it2 = it1 + 1; it2 != end; ++it2)
+			if (*it2 < *it1)
+				std::iter_swap(it1, it2);
+	}
+}
+
+template <class RandomIt>
+void minimumkivalasztos_rendezes
+(RandomIt beg, RandomIt end) {
+	if (beg == end)
+		return;
+	for (RandomIt it1 = beg; it1 != end - 1; ++it1) {
+		RandomIt it2 = it1;
+		for (RandomIt it3 = it2 + 1; it3 != end; ++it3)
+			if (*it3 < *it2)
+				it2 = it3;
+		std::iter_swap(it1, it2);
 	}
 }
 

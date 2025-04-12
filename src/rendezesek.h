@@ -2,6 +2,7 @@
 #define RENDEZESEK_H
 
 #include <iterator>
+#include <algorithm>
 
 namespace csrb {
 
@@ -18,6 +19,18 @@ void beilleszteses_rendezes
 			--it2;
 		}
 		*(it2 + 1) = b;
+	}
+}
+
+template <class RandomIt>
+void buborekos_rendezes
+(RandomIt beg, RandomIt end) {
+	if (beg == end)
+		return;
+	for (RandomIt it1 = end - 1; it1 != beg; --it1) {
+		for (RandomIt it2 = beg; it2 != it1; ++it2)
+			if (*(it2 + 1) < *it2)
+				std::iter_swap(it2 + 1, it2);
 	}
 }
 

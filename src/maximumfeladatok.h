@@ -23,6 +23,30 @@ InputIt maximumkivalasztas
 	return max;
 }
 
+// Az adott feltételnek megfelelő legnagyobb elem helyének
+// meghatározása az adatsorban
+// Paraméterek:
+// 	beg: Az adatsor első elemére mutató iterátor
+// 	end: Az adatsor utolsó utáni elemére mutató iterátor
+// 	pred: egy paraméteres feltétel, amely meghívható az adatsor elemeivel
+// A felhasználónak ügyelnie kell az iterátorszakasz validitására
+// Visszatérési érték:
+// 	A feltételnek megfelelő legnagyobb értékű elemre mutató,
+// 	vagy üres adatsor esetén az adatsor utolsó utáni elemére mutató iterátor
+template <class InputIt, class UnaryPred>
+InputIt felteteles_maximum
+(InputIt beg, InputIt end, UnaryPred pred) {
+	while (beg != end && !pred(*beg))
+		++beg;
+	if (beg == end)
+		return end;
+	InputIt max = beg;
+	for (; beg != end; ++beg)
+		if (*max < *beg && pred(*beg))
+			max = beg;
+	return max;
+}
+
 }	// csrb namespace vége
 
 #endif	// MAXIMUMFELADATOK_H

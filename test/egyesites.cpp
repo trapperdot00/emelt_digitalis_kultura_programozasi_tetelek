@@ -5,6 +5,8 @@
 #include <iostream>
 
 int main() {
+	std::cout << "Egyesítés\n";
+
 	std::vector<int> lista1{1,1,2,2,5};
 	std::vector<int> lista2{0,1,2,3,4};
 

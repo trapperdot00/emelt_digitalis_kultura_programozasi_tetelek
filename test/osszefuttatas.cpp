@@ -7,8 +7,8 @@
 int main() {
 	std::cout << "Összefuttatás\n";
 
-	std::vector<int> lista1{1,3,3,5,7,7,9};
-	std::vector<int> lista2{0,2,3,3,5,5,8};
+	std::vector<int> lista1{1,2,3,5,7,8,9};
+	std::vector<int> lista2{0,2,3,4,5,7,8};
 
 	std::cout << "Lista1:";
 	for (int i : lista1)

@@ -258,6 +258,39 @@ OutputIt egyesites
 	}
 	return dest;
 }
+
+// Rendezett adatsor készítése két rendezett adatsorból
+// Paraméterek:
+// 	beg1: első bemeneti rendezett adatsor első elemére mutató iterátor
+// 	end1: első bemeneti rendezett adatsor utolsó utáni elemére mutató iterátor
+// 	beg2: második bemeneti rendezett adatsor első elemére mutató iterátor
+// 	end2: második bemeneti rendezett adatsor utolsó utáni elemére mutató iterátor
+//	dest: kimeneti adatsor első írandó elemére mutató iterátor,
+//		amelybe a rendezett kimenetet írjuk
+// A felhasználónak ügyelnie kell a bemeneti iterátorszakaszok validitására,
+// a két bemeneti adatsor rendezettségére, valamint a kimeneti adatsor
+// elegendő méretére a memóriatúlcímezés elkerülése érdekében
+// Visszatérési érték:
+// 	A kimeneti, rendezett adatsor utoljára írt eleme utánra mutató iterátor
+template <class InputIt1, class InputIt2, class OutputIt>
+OutputIt osszefuttatas
+(InputIt1 beg1, InputIt1 end1, InputIt2 beg2, InputIt2 end2, OutputIt dest) {
+	while (beg1 != end1 && beg2 != end2) {
+		if (*beg1 < *beg2)
+			*dest++ = *beg1++;
+		else if (*beg1 == *beg2) {
+			*dest++ = *beg1++;
+			++beg2;
+		} else
+			*dest++ = *beg2++;
+	}
+	while (beg1 != end1)
+		*dest++ = *beg1++;
+	while (beg2 != end2)
+		*dest++ = *beg2++;
+	return dest;
+}
+
 }	// csrb namespace vége
 
 #endif	// ALAPFELADATOK_H
